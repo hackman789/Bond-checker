@@ -43,7 +43,7 @@ public class NameController {
         userService.saveDetails(user);
 
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("index");
+        mv.setViewName("redirect:/Bondchecker");
         mv.addObject("hisName", hisName);  // Add hisName to the model
         mv.addObject("herName", herName);  // Add herName to the model
         mv.addObject("message", "Names saved successfully!");

@@ -57,6 +57,13 @@
             outline: none;
         }
 
+        .error-message {
+            color: #ff6666;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
         .bond-wheel {
             margin: 30px auto;
             width: 200px;
@@ -112,40 +119,45 @@
 <body>
     <div class="container">
         <h1>Check Bond Strength</h1>
-        <form action="${pageContext.request.contextPath}/insertuser" method="post">
+        <form id="bondForm">
             <div class="form-group">
-                <input type="text" name="hisName" placeholder="Enter His Name" required>
+                <input type="text" id="hisName" name="hisName" placeholder="Enter His Name">
             </div>
             <div class="form-group">
-                <input type="text" name="herName" placeholder="Enter Her Name" required>
+                <input type="text" id="herName" name="herName" placeholder="Enter Her Name">
             </div>
+            <p id="errorMessage" class="error-message">Please enter both names.</p>
             <div class="bond-wheel" id="bondWheel">
                 <span>❤️</span>
             </div>
-            <button type="button" class="spin-button" onclick="spinWheelAndRedirect()">Spin</button>
+            <button type="button" class="spin-button" onclick="validateAndSpin()">Spin</button>
         </form>
     </div>
 
     <script>
-        function spinWheelAndRedirect() {
+        function validateAndSpin() {
+            const hisName = document.getElementById('hisName').value.trim();
+            const herName = document.getElementById('herName').value.trim();
+            const errorMessage = document.getElementById('errorMessage');
             const bondWheel = document.getElementById('bondWheel');
 
-            if (bondWheel) {
-                bondWheel.classList.add('spin');
+            if (!hisName || !herName) {
+                errorMessage.style.display = 'block';
+                return;
+            }
 
-                
+            // Hide the error message if names are valid
+            errorMessage.style.display = 'none';
+
+            // Add the spinning animation
+            bondWheel.classList.add('spin');
+
+            // Wait for the animation to complete before redirecting
             setTimeout(() => {
-                // Remove the spinning animation class after 2 seconds
                 bondWheel.classList.remove('spin');
-                
-                // Redirect to the 'index1.jsp' page
                 window.location.href = 'Bondchecker';
-            }, 2000); // Match the animation duration (2 seconds)
-        } else {
-            console.error("Bond Wheel element not found!");
+            }, 2000);
         }
-    }
-</script>
-   
+    </script>
 </body>
 </html>
